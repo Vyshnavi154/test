@@ -31,9 +31,9 @@ pipeline {
               def serverIP = ""
 
               if (env.GIT_BRANCH == "origin/master") {
-                serverIP = "13.201.5.148"
+                serverIP = "13.232.111.252"
             } else if (env.GIT_BRANCH == "origin/developer") {
-                serverIP = "13.235.82.52"
+                serverIP = "65.0.76.241"
             } else {
                 error "Deployment not configured for branch: ${env.GIT_BRANCH}"
             }
