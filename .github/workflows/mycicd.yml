@@ -57,7 +57,7 @@ jobs:
         host: ${{ env.SERVER_IP }}
         username: ubuntu
         key: ${{ secrets.SSH_PRIVATE_KEY }}
-        source: "target/*.war"
+        source: "*.war"
         target: "/home/ubuntu"
         overwrite: true
 
