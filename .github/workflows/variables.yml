@@ -17,4 +17,6 @@ jobs:
     steps:
       - name : Varible_check
         run : echo "My name is $name" >> $GITHUB_STEP_SUMMARY
-              echo "My OS is $os"            
+              echo "My OS is $os" >> $GITHUB_STEP_SUMMARY
+              echo "My repo level var key-val pair is ${{vars.VAR_NAME}}" >> $GITHUB_STEP_SUMMARY
+              echo "My password ${{secrets.PASSWD}}" >> $GITHUB_STEP_SUMMARY
