@@ -11,11 +11,12 @@ on:
       deplloy_env:
         description: Enter the target env
         type: choice
-          options: 
+        options:
             - qa
             - prod
             - pre-prod
-          default: qa
+        default: qa
+
         
   push:
     branches:
