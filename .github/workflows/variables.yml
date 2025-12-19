@@ -28,8 +28,8 @@ env:
 jobs:
   testing-variables:
     runs-on: ubuntu-latest
-    steps: 
-      - name: testing_variable
-      - run: |
-              echo "repo: ${{github.repository}}" >> $GITHUB_STEP_SUMMARY
-    
+    steps:
+     - name: testing_variable
+       run: |
+        echo "repo: ${{ github.repository }}" >> $GITHUB_STEP_SUMMARY
+
