@@ -45,4 +45,4 @@ jobs:
      - name: details
        run : |
          echo "$(pwd)" >> $GITHUB_STEP_SUMMARY
-         ls -lrt >> $GITHUB_STEP_SUMMARY
+         ls -lrt $(pwd) >> $GITHUB_STEP_SUMMARY
