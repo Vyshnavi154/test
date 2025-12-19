@@ -36,3 +36,9 @@ jobs:
         echo "${{ github.triggering_actor }}" >> $GITHUB_STEP_SUMMARY
         echo "${{ github.event.inputs.variable1 }}" >> $GITHUB_STEP_SUMMARY
         echo "${{ github.event_name }}" >> $GITHUB_STEP_SUMMARY
+        
+     - name: checkouting
+       uses: actions/checkout@v4
+       with:
+         path: working_dir
+         fetch-depth: 0
