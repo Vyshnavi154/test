@@ -26,6 +26,10 @@ env:
   name: Vysh
 
 jobs:
-  testing_variables:
-    echo "${{github.repository}}"
+  testing-variables:
+    runs-on: ubuntu-latest
+    steps: 
+      - name: testing_variables
+      - run: |
+              echo "repo: ${{github.repository}}" >> $GITHUB_STEP_SUMMMARY
     
