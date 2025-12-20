@@ -54,7 +54,7 @@ jobs:
 
      - name: check
        run: |
-        if [ "${{github.event_name}}" == "push"]; then
+        if [ "${{github.event_name}}" == "push" ]; then
           echo "servername=S1" >> $GITHUB_ENV
         else
           echo "servername=s2" >> $GITHUB_ENV
