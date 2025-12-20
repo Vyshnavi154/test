@@ -23,7 +23,7 @@ on:
       - master
       - variables
   schedule:
-  - cron: ' 19 4 * * * ' 
+  - cron: '21 4 * * *' 
 env:
   name: Vysh
   
