@@ -56,10 +56,12 @@ jobs:
        run: |
         if [ "${{ github.event_name }}" == "push" ]; then
           echo "servername=S1" >> $GITHUB_ENV
-        else
+        elif [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
           echo "servername=s2" >> $GITHUB_ENV
+        else
+          echo "servername=s3" >> $GITHUB_ENV
         fi
      - name: print
-       run: echo "$servername"
+       run: echo "$GITHUB_ENV"
         
         
