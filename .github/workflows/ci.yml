@@ -33,5 +33,5 @@ jobs:
           cache-dependency-path: '**/pom.xml'
     - name: Verify Java Installation
       run: |
-          echo "Running tests in ${{ inputs.environment }} environment..."  >> $GITHUB_STEP_SUMMARY
+          echo ${{ inputs.environment }}  >> $GITHUB_STEP_SUMMARY
           java -version
