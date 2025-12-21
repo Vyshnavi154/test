@@ -15,7 +15,7 @@ jobs:
     uses: ./.github/workflows/ci.yml
     with:
       version: ${{ github.event.inputs.version }}
-      evnironment: $ {{ github.event.inputs.environment }}
+      environment: $ {{ github.event.inputs.environment }}
 
         
         
