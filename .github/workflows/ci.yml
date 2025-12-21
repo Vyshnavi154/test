@@ -1,0 +1,35 @@
+name: CI
+on:
+  workflow_call:
+    inputs:
+      version:
+          required: true
+          type: string
+          default: '8'
+      environment:
+          required: true
+          type: string
+          default: staging
+      distribution:
+          required: true
+          type: string
+          default: 'temurin'
+jobs:
+  steps:
+    - name: checkout repo
+      uses: actions/checkout@v4
+      with:
+        path: my_dir
+        fetch_depth: 0
+        ref: master
+    - name: install 
+      uses: actions/setup-java@v4
+      with:
+          java-version: ${{ inputs.version }}
+          distribution: ${{ inputs.distribution }}
+          cache: maven
+          cache-dependency-path: '**/pom.xml'
+    - name: Verify Java Installation
+      run: |
+          echo "Running tests in ${{ inputs.environment }} environment..."  >> $GITHUB_STEP_SUMMARY
+          java -version
