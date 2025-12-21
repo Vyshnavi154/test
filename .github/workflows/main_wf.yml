@@ -14,8 +14,8 @@ jobs:
   calling_ci:
     uses: ./.github/workflows/ci.yml
     with:
-      version: ${{ github.event.inputs.version }}
-      environment: $ {{ github.event.inputs.environment }}
+      version: '${{ github.event.inputs.version }}'
+      environment: '$ {{ github.event.inputs.environment }}'
 
         
         
