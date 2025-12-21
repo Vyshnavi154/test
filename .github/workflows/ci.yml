@@ -9,7 +9,7 @@ on:
       environment:
           required: true
           type: string
-          default: 'staging'
+          default: staging
       distribution:
           type: string
           default: 'temurin'
