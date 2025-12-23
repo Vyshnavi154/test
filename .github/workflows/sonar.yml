@@ -25,7 +25,7 @@ jobs:
           key: maven-${{ hashFiles('**/pom.xml') }}
 
       - name: Build and analyze
-        run: mvn clean verify sonar:sonar \
+        run: mvn clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
           -Dsonar.projectKey=vyshnavi154 \
           -Dsonar.organization=Vyshnavi154 \
           -Dsonar.host.url=https://sonarcloud.io \
