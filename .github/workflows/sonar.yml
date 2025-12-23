@@ -27,8 +27,8 @@ jobs:
       - name: Build and analyze
         run: |
           mvn clean verify \
-            org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
-            -Dsonar.projectKey=vyshnavi154 \
-            -Dsonar.organization=vyshnavi154 \
-            -Dsonar.host.url=https://sonarcloud.io \
-            -Dsonar.login=${{ secrets.SONAR_SECRET }}
+          org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
+          -Dsonar.projectKey=vyshnavi154 \
+          -Dsonar.organization=vyshnavi154 \
+          -Dsonar.host.url=https://sonarcloud.io \
+          -Dsonar.login=${{ secrets.SONAR_SECRET }}
