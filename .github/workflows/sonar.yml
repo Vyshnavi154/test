@@ -19,13 +19,13 @@ jobs:
           distribution: temurin
           java-version: 17
 
-      - name: SonarCloud Connectivity Test
-        run: |
-          mvn -X \
-            org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
-            -Dsonar.projectKey=Vyshnavi154_hello-world-war \
-            -Dsonar.organization=vyshnavi154 \
-            -Dsonar.branch.name=master \
-            -Dsonar.host.url=https://sonarcloud.io \
-            -Dsonar.login=${{ secrets.MY_TOKEN }} \
-            -Dsonar.scanner.forceReloadAll=true
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@v2
+        env:
+          SONAR_TOKEN: ${{ secrets.MY_TOKEN }}
+        with:
+          args: >
+            -Dsonar.projectKey=Vyshnavi154_hello-world-war
+            -Dsonar.organization=vyshnavi154
+            -Dsonar.host.url=https://sonarcloud.io
+            -Dsonar.branch.name=master
