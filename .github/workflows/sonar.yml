@@ -23,7 +23,7 @@ jobs:
         run: |
           mvn -X \
             org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
-            -Dsonar.projectKey=hello-world-war \
+            -Dsonar.projectKey=Vyshnavi154_hello-world-war \
             -Dsonar.organization=vyshnavi154 \
             -Dsonar.branch.name=master \
             -Dsonar.host.url=https://sonarcloud.io \
