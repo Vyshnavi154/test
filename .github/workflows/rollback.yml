@@ -12,7 +12,9 @@ jobs:
         run: |
           # Example: Querying your app's health or version endpoint
           # Replace with your actual server IP and version endpoint
-          CURRENT_VERSION=$(curl -s http://65.2.35.91:8081/World-war/version || echo "unknown")
+          CURRENT_VERSION=curl -u ${{ secrets.NEXUS_USERNAME }}:${{ secrets.NEXUS_PASSWORD }} \
+          "http://65.2.35.91:8081/service/rest/v1/search?repository=maven-releases&group=com.helloworld.app&name=World-war&sort=version&direction=desc" \
+          | jq -r '.items[0].version'
           echo "Current version on target is: $CURRENT_VERSION" >> $GITHUB_STEP_SUMMARY
           echo "current_ver=$CURRENT_VERSION" >> $GITHUB_OUTPUT
 
