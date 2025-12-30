@@ -12,7 +12,7 @@ jobs:
         run: |
           # Example: Querying your app's health or version endpoint
           # Replace with your actual server IP and version endpoint
-          CURRENT_VERSION=$(curl -s http://65.2.35.91:8080/World-war/version || echo "unknown")
+          CURRENT_VERSION=$(curl -s http://65.2.35.91:8081/World-war/version || echo "unknown")
           echo "Current version on target is: $CURRENT_VERSION" >> $GITHUB_STEP_SUMMARY
           echo "current_ver=$CURRENT_VERSION" >> $GITHUB_OUTPUT
 
