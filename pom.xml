@@ -37,18 +37,7 @@
     <artifactId>commons-io</artifactId>
     <version>2.15.1</version>
   </dependency>
-<distributionManagement>
-    <repository>
-        <id>nexus-releases</id>
-        <name>Nexus Release Repository</name>
-        <url>https://your-nexus-url/repository/maven-releases/</url>
-    </repository>
-    <snapshotRepository>
-        <id>nexus-snapshots</id>
-        <name>Nexus Snapshot Repository</name>
-        <url>https://your-nexus-url/repository/maven-snapshots/</url>
-    </snapshotRepository>
-</distributionManagement>
+
 </dependencies>
 
 
@@ -75,5 +64,17 @@
 
     </plugins>
   </build>
+         <distributionManagement>
+    <repository>
+        <id>nexus-releases</id>
+        <name>Nexus Release Repository</name>
+        <url>https://your-nexus-url/repository/maven-releases/</url>
+    </repository>
+    <snapshotRepository>
+        <id>nexus-snapshots</id>
+        <name>Nexus Snapshot Repository</name>
+        <url>https://your-nexus-url/repository/maven-snapshots/</url>
+    </snapshotRepository>
+</distributionManagement>
 
 </project>
