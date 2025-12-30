@@ -50,7 +50,7 @@ jobs:
 
       # 3. Deploy the artifact to Nexus (only for 'main' branch in this example)
       - name: 🚀 Deploy to Nexus Repository
-        if: github.ref == 'refs/heads/master'
+        
         # The 'deploy' goal uses the distributionManagement section in pom.xml
         # and the credentials injected by 'setup-java'
         
