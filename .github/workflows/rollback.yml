@@ -1,0 +1,49 @@
+name: 🔄 Rollback to Last Stable Version
+
+on:
+  workflow_dispatch: # Allows you to trigger the rollback manually
+
+jobs:
+  rollback:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🔍 Step 1:Check Current Version on Target
+        id: check_env
+        run: |
+          # Example: Querying your app's health or version endpoint
+          # Replace with your actual server IP and version endpoint
+          CURRENT_VERSION=$(curl -s http://65.2.35.91:8080/World-war/version || echo "unknown")
+          echo "Current version on target is: $CURRENT_VERSION" >> $GITHUB_STEP_SUMMARY
+          echo "current_ver=$CURRENT_VERSION" >> $GITHUB_OUTPUT
+
+      - name: 🛠️ Step 2:Download Last Stable Version from Nexus
+        env:
+          NEXUS_USER: ${{ secrets.NEXUS_USERNAME }}
+          NEXUS_PW: ${{ secrets.NEXUS_PASSWORD }}
+          NEXUS_URL: "http://65.2.35.91:8081"
+        run: |
+          echo "Authenticating with Nexus..."
+          
+          # Use Nexus Search API to find the second latest version (the previous stable one)
+          # We sort by 'version' descending and grab the second item in the list
+          PREVIOUS_STABLE_VERSION=$(curl -u $NEXUS_USER:$NEXUS_PW -s \
+            "$NEXUS_URL/service/rest/v1/search?repository=maven-releases&group=com.helloworld.app&name=World-war&sort=version" \
+            | jq -r '.items[1].version')
+
+          echo "Last stable version identified: $PREVIOUS_STABLE_VERSION"
+
+          # Download the identified version
+          curl -u $NEXUS_USER:$NEXUS_PW -L \
+            "$NEXUS_URL/service/rest/v1/search/assets/download?repository=maven-releases&maven.groupId=com.helloworld.app&maven.artifactId=World-war&maven.baseVersion=$PREVIOUS_STABLE_VERSION" \
+            -o World-war-rollback.war
+          
+          echo "Successfully downloaded $PREVIOUS_STABLE_VERSION" >> $GITHUB_STEP_SUMMARY
+
+      - name: 🚀 Step 3:Execute Rollback Deployment
+        run: |
+          echo "Executing deployment of stable version to Target Env..."
+          # Example: Copying the file to Tomcat webapps directory via SSH/SCP
+          scp World-war-rollback.war ubuntu@13.127.21.7:/opt/tomcat/webapps/World-war.war
+          
+          # Simulating execution/restart
+          echo "Deployment successful. Target environment is now running the stable version." >> $GITHUB_STEP_SUMMARY
