@@ -1,0 +1,42 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+      - feature/**
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+    
+    # Define environment variables (optional, but helpful for clarity)
+    env:
+      NEXUS_URL: 'http://65.2.35.91:8081' # e.g., mycompany.com/nexus
+
+    steps:
+    
+      - name: ⬇️ Checkout Repository
+        uses: actions/checkout@v4
+
+      # 1. Setup the Java/Maven environment
+      - name: 🛠️ Setup Java and Maven
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17' # Choose your required Java version
+          distribution: 'temurin'
+          # CRITICAL STEP: Configure Maven to use Nexus credentials from secrets
+          server-id: nexus-releases # Matches the ID in pom.xml/settings.xml
+          server-username: ${{ secrets.NEXUS_USERNAME }}
+          server-password: ${{ secrets.NEXUS_PASSWORD }}
+          
+      # 2. Build the project and run tests
+      - name: 🏗️ Build with Maven
+        run: mvn clean install -DskipTests
+
+      # 3. Deploy the artifact to Nexus (only for 'main' branch in this example)
+      - name: 🚀 Deploy to Nexus Repository
+        if: github.ref == 'refs/heads/master'
+        # The 'deploy' goal uses the distributionManagement section in pom.xml
+        # and the credentials injected by 'setup-java'
+        run: mvn deploy -DskipTests
