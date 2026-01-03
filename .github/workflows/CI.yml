@@ -1,5 +1,7 @@
 name: CI demo
 on:
+  push:
+    branches: ['feature']
   workflow_dispatch:
     inputs:
       Target_env:
