@@ -22,7 +22,7 @@ jobs:
             -Dsonar.organization=vyshnavi154
             -Dsonar.host.url=https://sonarcloud.io
             -Dsonar.branch.name=${{ github.ref_name }}
-            -Dsonar.qyalitygate.wait=true
+            -Dsonar.qualitygate.wait=true
       
         
         
