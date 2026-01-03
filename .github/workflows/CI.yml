@@ -1,0 +1,40 @@
+name: CI demo
+on:
+  push:
+    branches: [ 'master','stagging','developer','pre-prod' ]
+  pull_request:
+    branches: [ 'master','stagging','developer','pre-prod' ]
+jobs:
+  CI-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout SRC
+        uses: actions/checkout@v4
+      
+      - name: RUN SAST
+        uses: SonarSource/sonarcloud-github-action@v2
+       
+        with:
+           args: >
+            -Dsonar.projectKey=Vyshnavi154_DevOps_test1
+            -Dsonar.organization=vyshnavi154
+            -Dsonar.host.url=https://sonarcloud.io
+            -Dsonar.branch.name=${{ github.ref }}
+            
+      - name: Check Quality status
+        id: result
+        uses: SonarSource/sonarqube-quality-gate-action@v1.1.0
+
+      - name: Result Passed
+        if: steps.result.outputs.quality_gate_status=='PASSED'
+        run: echo "QUALITY GATE PASSED" >> $GITHUB.STEP.SUMMARY
+      - name: Result Failed
+        if: steps.result.outputs.quality_gate_status=='FAILED'
+        run: echo "QUALITY GATE FAILED" >> $GITHUB.STEP.SUMMARY
+      
+        
+        
+    
+      
+      
+  
