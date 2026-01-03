@@ -80,7 +80,7 @@ jobs:
         run: |
            curl -u ${{ secrets.NEXUS_USERNAME }}:${{ secrets.NEXUS_PASSWORD }}\
            -o World-war.war \
-           http://3.110.123.178:8081/repository/maven-releases/com/helloworld/app/World-war/1.0/World-war-1.0.war
+           http://3.110.123.178:8081/repository/maven-releases/com/helloworld/app/World-war/1.2/World-war-1.2.war
            
         
       
