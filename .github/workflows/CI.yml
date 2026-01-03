@@ -11,32 +11,34 @@ jobs:
       - name: Checkout SRC
         uses: actions/checkout@v4
       
-      # - name: RUN SAST
-      #   uses: SonarSource/sonarcloud-github-action@v2
-      #   env:
-      #    SONAR_TOKEN: ${{ secrets.NEW_TOKEN }}
+      - name: RUN SAST
+        uses: SonarSource/sonarcloud-github-action@v2
+        env:
+          SONAR_TOKEN: ${{ secrets.NEW_TOKEN }}
        
-      #   with:
-      #      args: >
-      #       -Dsonar.projectKey=Vyshnavi154_DevOps_test1
-      #       -Dsonar.organization=vyshnavi154
-      #       -Dsonar.host.url=https://sonarcloud.io
-      #       -Dsonar.branch.name=${{ github.ref_name }}
-      #       -Dsonar.qualitygate.wait=true
-      # - name: Deploy
-      #   if: success()   # runs ONLY if Quality Gate PASSED
-      #   run: echo "🚀 Deploying..."
+        with:
+           args: >
+             -Dsonar.projectKey=Vyshnavi154_DevOps_test1
+             -Dsonar.organization=vyshnavi154
+             -Dsonar.host.url=https://sonarcloud.io
+             -Dsonar.branch.name=${{ github.ref_name }}
+             -Dsonar.qualitygate.wait=true
+      - name: Deploy
+        if: success()   # runs ONLY if Quality Gate PASSED
+        run: echo "🚀 Deploying..."
 
-      # - name: Stop Pipeline
-      #   if: failure()   # runs ONLY if Quality Gate FAILED
-      #   run: echo "❌ Quality Gate FAILED" >> $GITHUB_STEP_SUMMARY
+      - name: Stop Pipeline
+        if: failure()   # runs ONLY if Quality Gate FAILED
+        run: echo "❌ Quality Gate FAILED" >> $GITHUB_STEP_SUMMARY
       - name: install dependecies
         uses: actions/setup-java@v4
         with:
-          version: '17'
+          java-version: '17'
           distribution: 'temurin'
       - name: Build Artifact
-        run: mvn clean package
+        run: | 
+         mvn clean package 
+         echo "Package installed" >> $GITHUB_STEP_SUMMARY
           
        
         
