@@ -6,6 +6,9 @@ on:
         description: "Enter target server IP or hostname"
         required: true
         type: string
+  push:
+    branches:
+      -feature
 
       
 jobs:
@@ -14,6 +17,7 @@ jobs:
     steps:
       - name: Checkout SRC
         uses: actions/checkout@v4
+        
       
       # - name: RUN SAST
       #   uses: SonarSource/sonarcloud-github-action@v2
