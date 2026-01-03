@@ -50,6 +50,11 @@ jobs:
                 <username>${{ secrets.NEXUS_USERNAME }}</username>
                 <password>${{ secrets.NEXUS_PASSWORD }}</password>
               </server>
+              <server>
+                <id>nexus-releases</id>
+                <username>${{ secrets.NEXUS_USERNAME }}</username>
+                <password>${{ secrets.NEXUS_PASSWORD }}</password>
+              </server>
             </servers>
           </settings>
           EOF
