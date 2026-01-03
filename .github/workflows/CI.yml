@@ -26,6 +26,8 @@ jobs:
       - name: Check Quality status
         id: result
         uses: SonarSource/sonarqube-quality-gate-action@v1.1.0
+        env:
+         SONAR_TOKEN: ${{ secrets.NEW_TOKEN }}
 
       - name: Result Passed
         if: steps.result.outputs.quality_gate_status=='PASSED'
