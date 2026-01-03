@@ -1,6 +1,9 @@
 name: CI demo
 on:
   workflow_dispatch:
+  push:
+   branches:
+     feature
 jobs:
   CI-job:
     runs-on: ubuntu-latest
