@@ -4,6 +4,12 @@ on:
     branches: [ 'master','stagging','developer','pre-prod','feature' ]
   pull_request:
     branches: [ 'master','stagging','developer','pre-prod','feature' ]
+  workflow_dispatch:
+    inputs:
+      Target_env:
+       type: string
+       required: true
+      
 jobs:
   CI-job:
     runs-on: ubuntu-latest
@@ -61,7 +67,23 @@ jobs:
           
       - name: Deploy in Nexus
         run: mvn deploy
-          
+
+
+    
+  CD-job:
+    runs-on: ubuntu-latest
+    needs: CI-job
+    steps:
+      - name: Download artifact from Nexus
+        if: success()  
+
+        run: |
+           curl -u ${{ secrets.NEXUS_USERNAME }}:${{ secrets.NEXUS_PASSWORD }}\
+           -o World-war.war \
+           http://3.110.123.178:8081/repository/maven-releases/com/helloworld/app/World-war/1.0/World-war-1.0.war
+           
+        
+      
        
         
         
