@@ -13,6 +13,8 @@ jobs:
       
       - name: RUN SAST
         uses: SonarSource/sonarcloud-github-action@v2
+        env:
+         SONAR_TOKEN: ${{ secrets.MY_TOKEN }}
        
         with:
            args: >
