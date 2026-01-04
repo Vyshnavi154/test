@@ -75,6 +75,12 @@ jobs:
         run: |
            curl -u ${{ secrets.NEXUS_USERNAME }}:${{ secrets.NEXUS_PASSWORD }} -o World-war.war http://3.110.123.178:8081/repository/maven-releases/com/helloworld/app/World-war/1.2/World-war-1.2.war
 
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+
       - name: Deply to Target Env
         if: success()
         run: | 
