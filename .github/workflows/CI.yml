@@ -73,7 +73,7 @@ jobs:
         if: success()  
 
         run: |
-           curl -u ${{ secrets.NEXUS_USERNAME }}:${{ secrets.NEXUS_PASSWORD }} -o World-war.war http://http://13.232.155.18:8081/repository/maven-releases/com/helloworld/app/World-war/1.2/World-war-1.2.war
+           curl -u ${{ secrets.NEXUS_USERNAME }}:${{ secrets.NEXUS_PASSWORD }} -o World-war.war http://13.232.155.18:8081/repository/maven-releases/com/helloworld/app/World-war/1.2/World-war-1.2.war
 
       - name: Setup SSH
         uses: webfactory/ssh-agent@v0.9.0
