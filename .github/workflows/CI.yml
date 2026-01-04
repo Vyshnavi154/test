@@ -82,7 +82,7 @@ jobs:
     - name: Deply to Target Env
         
       run: | 
-          scp -o StrictHostKeyChecking=no target/World-war-1.15 ubuntu@3.109.47.95:/opt/tomcat/webapps/
+          scp -o StrictHostKeyChecking=no target/*.war ubuntu@3.109.47.95:/opt/tomcat/webapps/
         
           
       
