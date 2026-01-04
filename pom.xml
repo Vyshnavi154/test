@@ -8,7 +8,7 @@
   <groupId>com.helloworld.app</groupId>
   <artifactId>World-war</artifactId>
   
-  <version>1.7</version>
+  <version>1.8</version>
   <packaging>war</packaging>
 
   <name>Hello World Web Application Repository</name>
