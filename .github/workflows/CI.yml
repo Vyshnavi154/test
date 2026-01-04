@@ -44,7 +44,8 @@ jobs:
          echo "Package installed" >> $GITHUB_STEP_SUMMARY
          pwd >> $GITHUB_STEP_SUMMARY
          ls -l >> $GITHUB_STEP_SUMMARY
-         cd target ls -l >> $GITHUB_STEP_SUMMARY
+         cd target 
+         ls -l >> $GITHUB_STEP_SUMMARY
          
       # - name: Store Artifact in Artifact repo NEXUS
       #   run: |
