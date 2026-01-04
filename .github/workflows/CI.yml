@@ -75,7 +75,7 @@ jobs:
   CD-job:
     runs-on: ubuntu-latest
     needs: CI-job
-
+      
     steps:
     - name: Setup SSH
       uses: webfactory/ssh-agent@v0.9.0
@@ -86,7 +86,8 @@ jobs:
     - name: Deply to Target Env
         
       run: | 
-          scp -o StrictHostKeyChecking=no /home/runner/work/DevOps_test1/DevOps_test1/target/*.war ubuntu@3.109.47.95:/opt/tomcat/webapps/
+          pwd
+          scp -o StrictHostKeyChecking=no target/*.war ubuntu@3.109.47.95:/opt/tomcat/webapps/
         
           
       
