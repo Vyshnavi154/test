@@ -42,18 +42,21 @@ jobs:
           distribution: 'temurin'
           
       - name: Build Artifact
+        if: always()
         
         run: | 
          mvn clean package -Dproject.build.directory=target
          echo "Package installed" >> $GITHUB_STEP_SUMMARY
          
       - name: Upload for CD
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: war_files        
           path: target/*.war
          
       - name: Store Artifact in Artifact repo NEXUS
+        if: always()
         run: |
           mkdir -p ~/.m2
            cat <<EOF > ~/.m2/settings.xml  
@@ -74,6 +77,7 @@ jobs:
            EOF
           
       - name: Deploy in Nexus
+        if: always()
         run: mvn deploy
 
 
