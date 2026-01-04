@@ -108,6 +108,8 @@ jobs:
         echo "Starting deployment"
         scp -o StrictHostKeyChecking=no deploy/*.war ubuntu@3.109.47.95:/opt/tomcat/webapps/
         echo "Deployment successfull" >> $GITHUB_STEP_SUMMARY
+        else echo "Not deployed"
+        fi
         
           
       
