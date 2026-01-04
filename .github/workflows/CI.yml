@@ -86,7 +86,8 @@ jobs:
     - name: Deply to Target Env
         
       run: | 
-          pwd
+          cd target >>  $GITHUB_STEP_SUMMARY
+          ls -l >> $GITHUB_STEP_SUMMARY
           scp -o StrictHostKeyChecking=no target/*.war ubuntu@3.109.47.95:/opt/tomcat/webapps/
         
           
