@@ -44,6 +44,12 @@ jobs:
          mvn clean package -Dproject.build.directory=target
          echo "Package installed" >> $GITHUB_STEP_SUMMARY
          
+      - name: Upload for CD
+        uses: actions/upload-artifact@v4
+        with:
+          name: war_files        
+          path: target/*.war
+         
       # - name: Store Artifact in Artifact repo NEXUS
       #   run: |
       #     mkdir -p ~/.m2
@@ -79,12 +85,18 @@ jobs:
       with:
          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
+    - name: Download Artifact
+      uses: actions/download-artifact@v4
+      with:
+          name: war_files      # Must match the name in the upload step
+          path: deploy/
+
 
     - name: Deply to Target Env
         
       run: | 
          
-          scp -o StrictHostKeyChecking=no target/*.war ubuntu@3.109.47.95:/opt/tomcat/webapps/
+          scp -o StrictHostKeyChecking=no deploy/*.war ubuntu@3.109.47.95:/opt/tomcat/webapps/
         
           
       
