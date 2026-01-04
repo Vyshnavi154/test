@@ -10,7 +10,7 @@ jobs:
    runs-on: ubuntu-latest
    steps: 
     - name: Print
-    - run: echo ${{ github.event.inputs.Target_IP }}
+      run: echo ${{ github.event.inputs.Target_IP }}
 
  
 #   pull_request:
