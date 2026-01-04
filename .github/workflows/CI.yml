@@ -1,0 +1,138 @@
+name: CI demo
+on:
+  workflow_dispatch:
+
+  push:
+    branches: ['feature','developer','stagging','pre-prod']
+  pull_request:
+    branches: ['feature','developer','stagging','pre-prod']
+    
+jobs:
+  CI-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout SRC
+        uses: actions/checkout@v4
+        
+      
+      - name: RUN SAST
+        uses: SonarSource/sonarcloud-github-action@v2
+        env:
+          SONAR_TOKEN: ${{ secrets.NEW_TOKEN }}
+       
+        with:
+            args: >
+              -Dsonar.projectKey=Vyshnavi154_DevOps_test1
+              -Dsonar.organization=vyshnavi154
+              -Dsonar.host.url=https://sonarcloud.io
+              -Dsonar.branch.name=${{ github.ref_name }}
+              -Dsonar.qualitygate.wait=true
+              
+      - name: Deploy
+        if: success()   # runs ONLY if Quality Gate PASSED
+        run: echo "🚀 Deploying..."
+
+      - name: Stop Pipeline
+        if: failure()   # runs ONLY if Quality Gate FAILED
+        run: echo "❌ Quality Gate FAILED" >> $GITHUB_STEP_SUMMARY
+      
+      - name: install dependecies
+        if: always()
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          
+      - name: Build Artifact
+        if: always()
+        
+        run: | 
+         if [ -d target ]; then
+         rm -r target
+         fi
+         
+         mvn clean package -Dproject.build.directory=target
+         echo "Package installed" >> $GITHUB_STEP_SUMMARY
+         
+         
+      - name: Upload for CD
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: war_files        
+          path: target/
+         
+      - name: Store Artifact in Artifact repo NEXUS
+        if: always()
+        run: |
+          mkdir -p ~/.m2
+           cat <<EOF > ~/.m2/settings.xml  
+           <settings>
+             <servers>
+               <server>
+                 <id>nexus-snapshots</id>
+                 <username>${{ secrets.NEXUS_USERNAME }}</username>
+                 <password>${{ secrets.NEXUS_PASSWORD }}</password>
+               </server>
+               <server>
+                 <id>nexus-releases</id>
+                 <username>${{ secrets.NEXUS_USERNAME }}</username>
+                 <password>${{ secrets.NEXUS_PASSWORD }}</password>
+               </server>
+             </servers>
+           </settings>
+          EOF
+          
+      - name: Deploy in Nexus
+        if: always()
+        run: mvn deploy
+
+
+    
+  CD-job:
+    if: always()
+    runs-on: ubuntu-latest
+    needs: CI-job
+      
+    steps:
+    - name: Setup SSH
+      uses: webfactory/ssh-agent@v0.9.0
+      with:
+         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+ 
+    - name: Clean deploy directory
+      run: rm -rf deploy
+
+    - name: Download Artifact
+      uses: actions/download-artifact@v4
+      with:
+          name: war_files      # Must match the name in the upload step
+          path: deploy/
+
+
+    - name: Deply to Target Env
+      
+        
+      run: | 
+       if [ "${{ github.ref}}" ==  "refs/heads/feature" ]; then
+        echo "Starting deployment"
+        scp -o StrictHostKeyChecking=no deploy/*.war ubuntu@3.109.47.95:/opt/tomcat/webapps/
+        echo "Deployment successfull" >> $GITHUB_STEP_SUMMARY
+       elif [ "${{ github.ref}}" ==  "refs/heads/developer" ]; then
+        echo "Starting deployment"
+        scp -o StrictHostKeyChecking=no deploy/*.war ubuntu@13.232.155.18:/home/ubuntu/
+        echo "Deployment successfull" >> $GITHUB_STEP_SUMMARY
+        
+        else echo "Not deployed"
+        fi
+        
+          
+      
+       
+        
+        
+    
+      
+      
+  
