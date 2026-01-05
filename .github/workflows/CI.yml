@@ -1,4 +1,4 @@
-name: CI demo
+name: CI-CD demo
 on:
   workflow_dispatch:
    
@@ -110,11 +110,20 @@ jobs:
     needs: CI-job
       
     steps:
+    - name: set the ssh_key
+      run: | 
+       if [ "${{ github.ref}}" ==  "refs/heads/feature" ]; then
+       key= ${{ secrets.SSH_PRIVATE_KEY }}
+       if [ "${{ github.ref}}" ==  "refs/heads/developer" ]; then
+       key= ${{ secrets.QA_ENV }}
+    
     - name: Setup SSH
+     
+      
       uses: webfactory/ssh-agent@v0.9.0
       with:
    
-         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+         ssh-private-key: $key
 
  
     - name: Clean deploy directory
