@@ -83,6 +83,12 @@ jobs:
            </settings>
           EOF
           
+      - name: Bump version
+        run: |
+         mvn versions:set -DnewVersion=1.${{ github.run_number }}
+         mvn versions:commit
+
+          
       - name: Deploy in Nexus
         if: always()
         run: mvn deploy
