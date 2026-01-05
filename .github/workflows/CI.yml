@@ -116,6 +116,7 @@ jobs:
        key= ${{ secrets.SSH_PRIVATE_KEY }}
        if [ "${{ github.ref}}" ==  "refs/heads/developer" ]; then
        key= ${{ secrets.QA_ENV }}
+       fi
     
     - name: Setup SSH
      
