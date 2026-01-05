@@ -96,7 +96,7 @@ jobs:
 
           mvn versions:set -DnewVersion=$NEXT
           mvn versions:commit
-          mvn deploy
+          mvn clean deploy
 
          
           
