@@ -84,6 +84,7 @@ jobs:
           EOF
           
       - name: Minor release version bump and deploy
+        if: always()
         run: |
          
 
@@ -95,11 +96,11 @@ jobs:
 
           mvn versions:set -DnewVersion=$NEXT
           mvn versions:commit
+          run: mvn deploy
+
          
           
-      - name: Deploy in Nexus
-        if: always()
-        run: mvn deploy
+     
 
 
     
