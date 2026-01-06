@@ -86,7 +86,6 @@ jobs:
       - name: Minor release version bump and deploy
         if: always()
         run: |
-        
          mvn clean deploy
 
          
