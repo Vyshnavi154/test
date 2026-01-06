@@ -1,4 +1,4 @@
- name: CI-CD demo
+name: CI-CD demo
 on:
   workflow_dispatch:
    
