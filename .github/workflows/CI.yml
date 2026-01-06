@@ -87,13 +87,6 @@ jobs:
         if: always()
         run: |
          mvn clean deploy
-
-         
-          
-     
-
-
-    
   CD-job:
     if: always()
     runs-on: ubuntu-latest
