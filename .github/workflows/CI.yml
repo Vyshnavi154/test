@@ -147,8 +147,7 @@ jobs:
         echo "Starting deployment"
         scp -o StrictHostKeyChecking=no deploy/*.war ubuntu@65.0.45.10:/home/ubuntu/
         echo "Deployment successfull to QA Env IP 65.0.45.10 " >> $GITHUB_STEP_SUMMARY
-        
-        else echo "Not deployed"
+
         fi
         
           
