@@ -114,7 +114,7 @@ jobs:
       uses: webfactory/ssh-agent@v0.9.0
       with:
    
-         ssh-private-key: ${{ secrets.QA_ENV }}
+         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
     - name: Setup SSH for developer branch
       if: github.ref == 'refs/heads/developer'
