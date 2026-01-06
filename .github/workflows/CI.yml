@@ -109,11 +109,18 @@ jobs:
     runs-on: ubuntu-latest
     needs: CI-job
     steps:
-    - name: Setup SSH
+    - name: Setup SSH for feature branch
+      if: github.ref == 'refs/head/feature'
       uses: webfactory/ssh-agent@v0.9.0
-      env:
-        DEV: ${{ secrets.SSH_PRIVATE_KEY }}
-        QA: ${{ secrets.QA_ENV }}
+      with: ${{ secrets.SSH_PRIVATE_KEY }}
+
+    - name: Setup SSH for developer branch
+      if: github.ref == 'refs/head/developer'
+      uses: webfactory/ssh-agent@v0.9.0
+      with: ${{ secrets.QA_ENV }}
+
+      
+       
  
     - name: Clean deploy directory
       run: rm -rf deploy
