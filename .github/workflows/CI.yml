@@ -112,8 +112,9 @@ jobs:
     - name: Setup SSH for feature branch
       if: github.ref == 'refs/heads/feature'
       uses: webfactory/ssh-agent@v0.9.0
-      with: 
-        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+      with:
+   
+         ssh-private-key: ${{ secrets.QA_ENV }}
 
     - name: Setup SSH for developer branch
       if: github.ref == 'refs/heads/developer'
