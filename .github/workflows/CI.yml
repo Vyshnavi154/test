@@ -15,12 +15,16 @@ jobs:
           fetch-depth: 0   # VERY IMPORTANT
 
       - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@v2
+        uses: SonarSource/sonarqube-scan-action@v2
+
         env:
           SONAR_TOKEN: ${{ secrets.NEW_TOKEN }}
         with:
           args: >
             -Dsonar.projectKey=Vyshnavi154_test
             -Dsonar.organization=vyshnavi154
+            -Dsonar.host.url=https://sonarcloud.io
            
             -Dsonar.qualitygate.wait=true
+
+             
