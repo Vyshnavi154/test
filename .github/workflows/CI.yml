@@ -20,7 +20,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.NEW_TOKEN }}
         with:
           args: >
-            -Dsonar.projectKey=Vyshnavi154_DevOps_test1
+            -Dsonar.projectKey=Vyshnavi154_test
             -Dsonar.organization=vyshnavi154
            
             -Dsonar.qualitygate.wait=true
