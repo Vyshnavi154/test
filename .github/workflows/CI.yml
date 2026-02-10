@@ -1,24 +1,20 @@
 name: CI-CD demo
 
 on:
-  workflow_dispatch:
-
   pull_request:
-    branches:
-      - master
-      - feature
+    branches: [ "feature", "master" ]
 
 jobs:
   CI-job:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout source
+      - name: Checkout code
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: 0   # VERY IMPORTANT
 
-      - name: Run SonarCloud SAST
+      - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@v2
         env:
           SONAR_TOKEN: ${{ secrets.NEW_TOKEN }}
@@ -26,3 +22,7 @@ jobs:
           args: >
             -Dsonar.projectKey=Vyshnavi154_DevOps_test1
             -Dsonar.organization=vyshnavi154
+            -Dsonar.pullrequest.key=${{ github.event.pull_request.number }}
+            -Dsonar.pullrequest.branch=${{ github.head_ref }}
+            -Dsonar.pullrequest.base=${{ github.base_ref }}
+            -Dsonar.qualitygate.wait=true
