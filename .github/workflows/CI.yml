@@ -3,13 +3,13 @@ on:
   workflow_dispatch:
    
   push:
-    branches: ['feature','developer','stagging','pre-prod']
+    branches: ['feature' , 'master']
   pull_request:
-    branches: ['feature','developer','stagging','pre-prod']
+    branches: ['feature' , 'master']
     
 jobs:
   CI-job:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout SRC
         uses: actions/checkout@v4
@@ -27,128 +27,4 @@ jobs:
               -Dsonar.host.url=https://sonarcloud.io
               -Dsonar.branch.name=${{ github.ref_name }}
               -Dsonar.qualitygate.wait=true
-              
-      - name: Deploy
-        if: success()   # runs ONLY if Quality Gate PASSED
-        run: echo "🚀 Deploying..."
-
-      - name: Stop Pipeline
-        if: failure()   # runs ONLY if Quality Gate FAILED
-        run: echo "❌ Quality Gate FAILED" >> $GITHUB_STEP_SUMMARY
-      
-      - name: install dependecies
-        if: always()
-        uses: actions/setup-java@v4
-        with:
-          java-version: '17'
-          distribution: 'temurin'
-          
-      - name: Build Artifact
-        if: always()
-        
-        run: | 
-         if [ -d target ]; then
-         rm -r target
-         fi
-         
-         mvn clean package -Dproject.build.directory=target
-         echo "Artifact built" >> $GITHUB_STEP_SUMMARY
-         
-         
-      - name: Upload for CD
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: war_files        
-          path: target/
-         
-      - name: Store Artifact in Artifact repo NEXUS
-        if: always()
-        run: |
-          mkdir -p ~/.m2
-           cat <<EOF > ~/.m2/settings.xml  
-           <settings>
-             <servers>
-               <server>
-                 <id>nexus-snapshots</id>
-                 <username>${{ secrets.NEXUS_USERNAME }}</username>
-                 <password>${{ secrets.NEXUS_PASSWORD }}</password>
-               </server>
-               <server>
-                 <id>nexus-releases</id>
-                 <username>${{ secrets.NEXUS_USERNAME }}</username>
-                 <password>${{ secrets.NEXUS_PASSWORD }}</password>
-               </server>
-             </servers>
-           </settings>
-          EOF
-          
-      - name: Minor release version bump and deploy
-        if: always()
-        run: mvn clean deploy
-
-
-        
-  CD-job:
-    if: always()
-    runs-on: self-hosted
-    needs: CI-job
-    steps:
-    - name: Setup SSH for feature branch
-      if: github.ref == 'refs/heads/feature'
-      uses: webfactory/ssh-agent@v0.9.0
-      with:
-   
-         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-
-    - name: Setup SSH for developer branch
-      if: github.ref == 'refs/heads/developer'
-      uses: webfactory/ssh-agent@v0.9.0
-      with: 
-       ssh-private-key: ${{ secrets.QA_ENV }}
-
-    - name: Setup SSH for Stagging branch
-      if: github.ref == 'refs/heads/stagging'
-      uses: webfactory/ssh-agent@v0.9.0
-      with: 
-       ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-
- 
-
-      
-       
- 
-    - name: Clean deploy directory
-      run: rm -rf deploy
-
-    - name: Download Artifact
-      uses: actions/download-artifact@v4
-      with:
-          name: war_files      # Must match the name in the upload step
-          path: deploy/
-
-
-    - name: Deply to Target Env
-      
-        
-      run: | 
-       if [ "${{ github.ref}}" ==  "refs/heads/feature" ]; then
-        echo "Starting deployment"
-        scp -o StrictHostKeyChecking=no deploy/*.war ubuntu@43.205.116.56:/opt/tomcat/webapps/
-        echo "Deployment successfull to Developer Env IP 43.205.116.56 " >> $GITHUB_STEP_SUMMARY
-       elif [ "${{ github.ref}}" ==  "refs/heads/developer" ]; then
-        echo "Starting deployment"
-        scp -o StrictHostKeyChecking=no deploy/*.war ubuntu@65.0.45.10:/home/ubuntu/
-        echo "Deployment successfull to QA Env IP 65.0.45.10 " >> $GITHUB_STEP_SUMMARY
-       elif [ "${{ github.ref}}" ==  "refs/heads/stagging" ]; then
-        echo "Starting deployment"
-        scp -o StrictHostKeyChecking=no deploy/*.war ubuntu@43.205.116.56:/home/ubuntu/
-        echo "Deployment successfull to Staggig Env IP 43.205.116.56 " >> $GITHUB_STEP_SUMMARY
-
-        fi
-        
-          
-      
-       
-        
-        
+  
