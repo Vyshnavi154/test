@@ -1,0 +1,28 @@
+name: CI-CD demo
+
+on:
+  workflow_dispatch:
+
+  pull_request:
+    branches:
+      - master
+      - feature
+
+jobs:
+  CI-job:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run SonarCloud SAST
+        uses: SonarSource/sonarcloud-github-action@v2
+        env:
+          SONAR_TOKEN: ${{ secrets.NEW_TOKEN }}
+        with:
+          args: >
+            -Dsonar.projectKey=Vyshnavi154_DevOps_test1
+            -Dsonar.organization=vyshnavi154
